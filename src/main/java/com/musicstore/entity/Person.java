@@ -14,15 +14,15 @@ public class Person implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="pid")
-    private int pid;  
+    private Integer pid;  
 	@Column(name="name")
     private String name;
 	@Column(name="location")	
 	private String location;
-	public int getPid() {
+	public Integer getPid() {
 		return pid;
 	}
-	public void setPid(int pid) {
+	public void setPid(Integer pid) {
 		this.pid = pid;
 	}
 	public String getName() {
