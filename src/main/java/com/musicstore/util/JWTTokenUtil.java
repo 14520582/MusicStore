@@ -45,14 +45,13 @@ public class JWTTokenUtil implements Serializable {
     }
 
     public String generateToken(Account user) {
-        return doGenerateToken(user.getUsername());
+        return doGenerateToken(user);
     }
 
-    private String doGenerateToken(String subject) {
+    private String doGenerateToken(Account subject) {
 
-        Claims claims = Jwts.claims().setSubject(subject);
-        claims.put("scopes", Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN")));
-
+        Claims claims = Jwts.claims().setSubject(subject.getUsername());
+        claims.put("scopes", Arrays.asList(new SimpleGrantedAuthority(subject.getRole())));
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuer("http://tma.com.vn")

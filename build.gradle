@@ -1,7 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'war'
-archivesBaseName = 'musicmarket'
+archivesBaseName = 'musicstore'
 version = '1' 
 repositories {
     mavenCentral()

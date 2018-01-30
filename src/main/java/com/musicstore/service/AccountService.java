@@ -22,15 +22,15 @@ public class AccountService implements UserDetailsService, IAccountService{
 		Account obj = accountDAO.findOne(id);
 		return obj;
 	}
-	private List<SimpleGrantedAuthority> getAuthority() {
-		return Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"));
+	private List<SimpleGrantedAuthority> getAuthority(String role) {
+		return Arrays.asList(new SimpleGrantedAuthority(role));
 	}
 	public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
 		Account user = accountDAO.findByUserName(userId);
 		if(user == null){
 			throw new UsernameNotFoundException("Invalid username or password.");
 		}
-		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), getAuthority());
+		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), getAuthority(user.getRole()));
 	}
 	@Override
 	public synchronized boolean addAccount(Account account) {
@@ -52,7 +52,7 @@ public class AccountService implements UserDetailsService, IAccountService{
 	}
 	@Override
 	public void update(Account acc) {
-		accountDAO.save(acc); 
+		accountDAO.save(acc);
 	}
 
 }
