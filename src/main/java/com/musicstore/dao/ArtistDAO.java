@@ -1,5 +1,11 @@
 package com.musicstore.dao;
 
-public class ArtistDAO {
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+import com.musicstore.entity.Artist;
+
+@Repository
+public interface ArtistDAO extends CrudRepository<Artist, Integer>{
 
 }

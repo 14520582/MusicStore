@@ -1,4 +1,5 @@
 package com.musicstore.entity;
+
 import java.io.Serializable;
 
 import javax.persistence.Column;
@@ -7,23 +8,26 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
 @Entity
-@Table(name="person")
-public class Person implements Serializable { 
-	private static final long serialVersionUID = 1L;
+@Table(name="genre")
+public class Genre implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4L;
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="pid")
-    private Integer pid;  
+	@Column(name="id")
+    private Integer id;  
 	@Column(name="name")
     private String name;
-	@Column(name="location")	
-	private String location;
-	public Integer getPid() {
-		return pid;
+	public Integer getId() {
+		return id;
 	}
-	public void setPid(Integer pid) {
-		this.pid = pid;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	public String getName() {
 		return name;
@@ -31,10 +35,17 @@ public class Person implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getLocation() {
-		return location;
+	public Genre(Integer id, String name) {
+		super();
+		this.id = id;
+		this.name = name;
 	}
-	public void setLocation(String location) {
-		this.location = location;
+	public Genre(String name) {
+		super();
+		this.name = name;
 	}
-} 
+	public Genre() {
+		super();
+	}
+	
+}

@@ -13,42 +13,44 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="album")
-public class Album implements Serializable {
-	private static final long serialVersionUID = 2L;
+@Table(name="song")
+public class Song implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6L;
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="id")
 	private Integer id;  
 	@Column(name="name")
-    private String name;
-	@Column(name="price")	
-	private int price;
+	private String name;
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_genre", nullable = false)
 	private Genre genre;
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "id_artist", nullable = false)
-	private Artist artist;
-	@Column(name="release_date")	
-	private long releasedate;
-	
-	public Album(Integer id, String name, int price, Genre genre, Artist artist, long releasedate) {
+	@JoinColumn(name = "id_singer", nullable = false)
+	private Artist singer;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_composer", nullable = false)
+	private Artist composer;
+	public Song() {
+		super();
+	}	
+	public Song(Integer id, String name, Genre genre, Artist singer, Artist composer) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.price = price;
 		this.genre = genre;
-		this.artist = artist;
-		this.releasedate = releasedate;
+		this.singer = singer;
+		this.composer = composer;
 	}
-	public Album(String name, int price, Genre genre, Artist artist, long releasedate) {
+	public Song(String name, Genre genre, Artist singer, Artist composer) {
 		super();
 		this.name = name;
-		this.price = price;
 		this.genre = genre;
-		this.artist = artist;
-		this.releasedate = releasedate;
+		this.singer = singer;
+		this.composer = composer;
 	}
 	public Integer getId() {
 		return id;
@@ -62,32 +64,23 @@ public class Album implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getPrice() {
-		return price;
-	}
-	public void setPrice(int price) {
-		this.price = price;
-	}
 	public Genre getGenre() {
 		return genre;
 	}
 	public void setGenre(Genre genre) {
 		this.genre = genre;
 	}
-	public long getReleasedate() {
-		return releasedate;
+	public Artist getSinger() {
+		return singer;
 	}
-	public void setReleasedate(long releasedate) {
-		this.releasedate = releasedate;
+	public void setSinger(Artist singer) {
+		this.singer = singer;
 	}
-	public Album() {
-		super();
+	public Artist getComposer() {
+		return composer;
 	}
-	public Artist getArtist() {
-		return artist;
-	}
-	public void setArtist(Artist artist) {
-		this.artist = artist;
+	public void setComposer(Artist composer) {
+		this.composer = composer;
 	}
 	
 }
