@@ -1,4 +1,4 @@
-package com.musicstore.service;
+package com.musicstore.service.imp;
 
 import java.util.Arrays;
 import java.util.List;
@@ -12,9 +12,9 @@ import org.springframework.stereotype.Service;
 
 import com.musicstore.dao.AccountDAO;
 import com.musicstore.entity.Account;
-
+import com.musicstore.service.*;
 @Service(value = "accountService")
-public class AccountService implements UserDetailsService, IAccountService{
+public class AccountService implements IAccountService{
 	@Autowired
 	private AccountDAO accountDAO;
 	@Override
@@ -22,16 +22,16 @@ public class AccountService implements UserDetailsService, IAccountService{
 		Account obj = accountDAO.findOne(id);
 		return obj;
 	}
-	private List<SimpleGrantedAuthority> getAuthority(String role) {
-		return Arrays.asList(new SimpleGrantedAuthority(role));
-	}
-	public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
-		Account user = accountDAO.findByUserName(userId);
-		if(user == null){
-			throw new UsernameNotFoundException("Invalid username or password.");
-		}
-		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), getAuthority(user.getRole()));
-	}
+//	private List<SimpleGrantedAuthority> getAuthority(String role) {
+//		return Arrays.asList(new SimpleGrantedAuthority(role));
+//	}
+//	public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
+//		Account user = accountDAO.findByUserName(userId);
+//		if(user == null){
+//			throw new UsernameNotFoundException("Invalid username or password.");
+//		}
+//		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), getAuthority(user.getRole()));
+//	}
 	@Override
 	public synchronized boolean addAccount(Account account) {
 	       if (accountDAO.existsByUsername(account.getUsername())) {

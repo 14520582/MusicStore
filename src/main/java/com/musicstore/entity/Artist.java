@@ -4,10 +4,15 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name="artist")
@@ -24,6 +29,8 @@ public class Artist implements Serializable {
     private String name;
 	@Column(name="year_of_birth")
     private int yearofbirth;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_country", nullable = false)
     private Country country;
 	@Column(name="sex")
     private int sex; //1: male 0: female

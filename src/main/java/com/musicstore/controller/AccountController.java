@@ -21,19 +21,19 @@ import com.musicstore.entity.Account;
 import com.musicstore.service.IAccountService;
 
 @RestController
-@RequestMapping("/info")
+@RequestMapping("/account")
 public class AccountController {
 	@Autowired
 	private IAccountService accountService;
 
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     
-	@RequestMapping(value="/account/{id}", method = RequestMethod.GET )
+	@RequestMapping(value="/{id}", method = RequestMethod.GET )
 	public ResponseEntity<Account> getAccountById(@PathVariable("id") Integer id) {
 		Account acc = accountService.getAccountById(id);
 		return new ResponseEntity<Account>(acc, HttpStatus.OK);
 	}
-	@RequestMapping(value="/account/get/{username}", method = RequestMethod.GET )
+	@RequestMapping(value="/get/{username}", method = RequestMethod.GET )
 	public ResponseEntity<Account> getAccountByUsername(@PathVariable("username") String username) {
 		Account acc = accountService.getAccountByUsername(username);
 		return new ResponseEntity<Account>(acc, HttpStatus.OK);
@@ -53,7 +53,7 @@ public class AccountController {
 //		List<Account> list = accountService.getAllAccounts();
 //		return new ResponseEntity<List<Account>>(list, HttpStatus.OK);
 //	}
-	@RequestMapping(value= "/account", method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> addAccount(@RequestBody Account account, UriComponentsBuilder builder) {
 		account.setPassword(bCryptPasswordEncoder.encode(account.getPassword()));
 		boolean flag = accountService.addAccount(account);

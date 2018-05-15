@@ -14,6 +14,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import com.musicstore.service.imp.MyAppUserDetailsService;
 
 import javax.annotation.Resource;
 
@@ -22,9 +25,12 @@ import javax.annotation.Resource;
 @EnableGlobalMethodSecurity(prePostEnabled = true,securedEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Resource(name = "accountService")
-    private UserDetailsService userDetailsService;
-
+	@Autowired
+	private MyAppUserDetailsService myAppUserDetailsService;
+    @Autowired
+    private RESTAuthenticationFailureHandler authenticationFailureHandler;
+    @Autowired
+    private RESTAuthenticationSuccessHandler authenticationSuccessHandler;
     @Autowired
     private JWTAuthenticationEntryPoint unauthorizedHandler;
 
@@ -36,7 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService)
+        auth.userDetailsService(myAppUserDetailsService)
                 .passwordEncoder(encoder());
     }
 
@@ -49,10 +55,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().
 				authorizeRequests()
-				.antMatchers("/").permitAll()
+				.antMatchers("/album/all").permitAll()
+				.antMatchers("/album/page").permitAll()
+				.antMatchers("/album/search").permitAll()
 				.antMatchers(HttpMethod.POST, "/login").permitAll()
 				.anyRequest().authenticated().and()
-                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
+		        .logout()
+		        .permitAll()
+		        .logoutUrl("/logout")
+		        .and()
+                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler)       
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http

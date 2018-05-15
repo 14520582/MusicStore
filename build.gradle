@@ -15,6 +15,9 @@ dependencies {
     compile 'mysql:mysql-connector-java:5.1.31'
     compile 'org.apache.commons:commons-dbcp2:2.1.1'
     compile 'io.jsonwebtoken:jjwt:0.7.0'
-    compile 'jstl:jstl:1.2'
+    compile 'com.fasterxml.jackson.core:jackson-annotations:2.9.4'
+        compile 'javax.servlet:jstl:1.2'
+    compile 'javax.servlet:javax.servlet-api:4.0.0'
+    compile 'javax.servlet.jsp:jsp-api:2.2'
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat:1.5.1.RELEASE'    
 } 

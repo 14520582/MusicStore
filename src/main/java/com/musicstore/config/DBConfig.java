@@ -71,6 +71,7 @@ public class DBConfig {
             properties.put("hibernate.id.new_generator_mappings", env.getProperty("hibernate.id.new_generator_mappings"));
             properties.put("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
             properties.put("hibernate.format_sql", env.getProperty("hibernate.format_sql"));
+            properties.put("hibernate.enable_lazy_load_no_trans", env.getProperty("hibernate.enable_lazy_load_no_trans"));
             return properties;        
         }	
 } 

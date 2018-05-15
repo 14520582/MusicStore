@@ -32,7 +32,8 @@ public class Album implements Serializable {
 	private Artist artist;
 	@Column(name="release_date")	
 	private long releasedate;
-	
+	@Column(name="cover")
+    private String cover;
 	public Album(Integer id, String name, int price, Genre genre, Artist artist, long releasedate) {
 		super();
 		this.id = id;
@@ -85,6 +86,31 @@ public class Album implements Serializable {
 	}
 	public Artist getArtist() {
 		return artist;
+	}
+	public Album(String name, int price, Genre genre, Artist artist, long releasedate, String cover) {
+		super();
+		this.name = name;
+		this.price = price;
+		this.genre = genre;
+		this.artist = artist;
+		this.releasedate = releasedate;
+		this.cover = cover;
+	}
+	public String getCover() {
+		return cover;
+	}
+	public void setCover(String cover) {
+		this.cover = cover;
+	}
+	public Album(Integer id, String name, int price, Genre genre, Artist artist, long releasedate, String cover) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.price = price;
+		this.genre = genre;
+		this.artist = artist;
+		this.releasedate = releasedate;
+		this.cover = cover;
 	}
 	public void setArtist(Artist artist) {
 		this.artist = artist;
