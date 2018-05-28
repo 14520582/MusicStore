@@ -17,5 +17,5 @@ public interface IAlbumService {
  	boolean addAlbum(Album account);
  	Album findByName(String name);
  	Album getAlbumById(int id);
- 	void update(Album acc);
+ 	Album update(Album acc);
 }

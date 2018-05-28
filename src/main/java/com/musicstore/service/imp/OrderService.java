@@ -46,5 +46,14 @@ public class OrderService implements IOrderService {
 	public void book(int id) {
 		orderDAO.book(id);	
 	}
+	@Override
+	public List<Orders> findByStatus(int status) {
+		// TODO Auto-generated method stub
+		return orderDAO.findByStatus(status);
+	}
+	@Override
+	public Orders save(Orders order) {
+		return orderDAO.save(order);
+	}
 
 }

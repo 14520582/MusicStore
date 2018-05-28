@@ -21,4 +21,6 @@ public interface OrderDAO extends CrudRepository<Orders, Integer>{
     @Modifying
     @Query("update Orders u set u.status = 1 where u.id=:id")
     public void book(@Param("id") int id);
+    @Query("select u from Orders u where u.status = :status")
+    public List<Orders> findByStatus(@Param("status") int status);
 }

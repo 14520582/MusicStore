@@ -36,8 +36,8 @@ public class AlbumService implements IAlbumService{
 	       }
 	}
 	@Override
-	public void update(Album album) {
-		albumDAO.save(album);
+	public Album update(Album album) {
+		return albumDAO.save(album);
 		
 	}
 	@Override

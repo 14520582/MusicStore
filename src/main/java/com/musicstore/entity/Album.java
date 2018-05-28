@@ -1,7 +1,10 @@
 package com.musicstore.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,7 +12,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -34,7 +39,21 @@ public class Album implements Serializable {
 	private long releasedate;
 	@Column(name="cover")
     private String cover;
-	public Album(Integer id, String name, int price, Genre genre, Artist artist, long releasedate) {
+	@Lob 
+	@Column(name="description",length = 100000)
+    private String description;
+	@Column(name="quantity")	
+	private int quantity = 0;
+	@OneToMany(mappedBy="album", cascade = CascadeType.ALL, targetEntity = Song.class)
+	private List<Song> songs = new ArrayList<Song>();
+	@Column(name="status")	
+	private int status = 1;
+	public Album() {
+		super();
+	}
+	
+	public Album(Integer id, String name, int price, Genre genre, Artist artist, long releasedate, String cover,
+			String description, int quantity, List<Song> songs, int status) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -42,15 +61,59 @@ public class Album implements Serializable {
 		this.genre = genre;
 		this.artist = artist;
 		this.releasedate = releasedate;
+		this.cover = cover;
+		this.description = description;
+		this.quantity = quantity;
+		this.songs = songs;
+		this.status = status;
 	}
-	public Album(String name, int price, Genre genre, Artist artist, long releasedate) {
+	
+	public Album(String name, int price, Genre genre, Artist artist, long releasedate, String cover, String description,
+			int quantity, List<Song> songs, int status) {
 		super();
 		this.name = name;
 		this.price = price;
 		this.genre = genre;
 		this.artist = artist;
 		this.releasedate = releasedate;
+		this.cover = cover;
+		this.description = description;
+		this.quantity = quantity;
+		this.songs = songs;
+		this.status = status;
 	}
+	public void addSong(Song e){
+		songs.add(e);
+	}
+	public List<Song> getSongs() {
+		return songs;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public void setSongs(List<Song> songs) {
+		this.songs = songs;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
 	public Integer getId() {
 		return id;
 	}
@@ -81,35 +144,13 @@ public class Album implements Serializable {
 	public void setReleasedate(long releasedate) {
 		this.releasedate = releasedate;
 	}
-	public Album() {
-		super();
-	}
 	public Artist getArtist() {
 		return artist;
-	}
-	public Album(String name, int price, Genre genre, Artist artist, long releasedate, String cover) {
-		super();
-		this.name = name;
-		this.price = price;
-		this.genre = genre;
-		this.artist = artist;
-		this.releasedate = releasedate;
-		this.cover = cover;
 	}
 	public String getCover() {
 		return cover;
 	}
 	public void setCover(String cover) {
-		this.cover = cover;
-	}
-	public Album(Integer id, String name, int price, Genre genre, Artist artist, long releasedate, String cover) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.price = price;
-		this.genre = genre;
-		this.artist = artist;
-		this.releasedate = releasedate;
 		this.cover = cover;
 	}
 	public void setArtist(Artist artist) {

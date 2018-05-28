@@ -58,6 +58,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/album/all").permitAll()
 				.antMatchers("/album/page").permitAll()
 				.antMatchers("/album/search").permitAll()
+				.antMatchers("/song/all").permitAll()
 				.antMatchers(HttpMethod.POST, "/login").permitAll()
 				.anyRequest().authenticated().and()
 		        .logout()

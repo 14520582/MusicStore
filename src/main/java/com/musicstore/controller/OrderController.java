@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -60,6 +61,12 @@ public class OrderController {
 		Orders order = orderService.findById(id);
 		return order;
 	}
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value= "/status/{status}", method = RequestMethod.GET)
+	public List<Orders> findByStatus(@PathVariable("status") Integer status) {
+		List<Orders> order = orderService.findByStatus(status);
+		return order;
+	}
 	@RequestMapping(method = RequestMethod.POST)
 	public Orders addOrder(@RequestBody Orders order, UriComponentsBuilder builder) {
 		
@@ -84,40 +91,48 @@ public class OrderController {
 		List<Orders> list = orderService.findOrdersByUsername(authentication.getName());
 		return list;
 	}
-	@RequestMapping(value= "/details/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<Void> removeDetailFromCart(@PathVariable("id") Integer id) {
-		detailOrderService.deleteDetail(id);
-		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
-	}
-	@RequestMapping(value= "/details", method = RequestMethod.POST)
-	public ResponseEntity<Void> addDetailToCart(@RequestBody DetailOrder detail) {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		Orders cart = orderService.findCartByUsername(authentication.getName()).get(0);
-		
-		if(cart == null){
-			DetailOrder a = new DetailOrder(albumService.getAlbumById(detail.getAlbum().getId()), 2);
-			Orders order = new Orders();
-			a.setOrder(order);
-		    order.addDetails(a);
-		    order.setCustomer(accountService.findOne(authentication.getName()));
-			orderService.addOrder(order);
-		}else{
-			DetailOrder existDetail = detailOrderService.findByIdAlbum(cart.getId(),detail.getAlbum().getId());
-			if(existDetail == null) {
-				DetailOrder newDetails = new DetailOrder(albumService.getAlbumById(detail.getAlbum().getId()),cart, detail.getQuanlity());		
-				detailOrderService.addDetail(newDetails);
-			}else{
-				existDetail.setQuanlity(existDetail.getQuanlity() + detail.getQuanlity());
-				detailOrderService.addDetail(existDetail);
-			}
-
-		}
-		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
-	}
-	@RequestMapping(value="confirm", method = RequestMethod.PUT)
-	public void placeanorder() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		Orders cart = orderService.findCartByUsername(authentication.getName()).get(0);
-		orderService.book(cart.getId());
+//	@RequestMapping(value= "/details/{id}", method = RequestMethod.DELETE)
+//	public ResponseEntity<Void> removeDetailFromCart(@PathVariable("id") Integer id) {
+//		detailOrderService.deleteDetail(id);
+//		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+//	}
+//	@RequestMapping(value= "/details", method = RequestMethod.POST)
+//	public ResponseEntity<Void> addDetailToCart(@RequestBody DetailOrder detail) {
+//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//		Orders cart = orderService.findCartByUsername(authentication.getName()).get(0);
+//		
+//		if(cart == null){
+//			DetailOrder a = new DetailOrder(albumService.getAlbumById(detail.getAlbum().getId()), 2);
+//			Orders order = new Orders();
+//			a.setOrder(order);
+//		    order.addDetails(a);
+//		    order.setCustomer(accountService.findOne(authentication.getName()));
+//			orderService.addOrder(order);
+//		}else{
+//			DetailOrder existDetail = detailOrderService.findByIdAlbum(cart.getId(),detail.getAlbum().getId());
+//			if(existDetail == null) {
+//				DetailOrder newDetails = new DetailOrder(albumService.getAlbumById(detail.getAlbum().getId()),cart, detail.getQuanlity());		
+//				detailOrderService.addDetail(newDetails);
+//			}else{
+//				existDetail.setQuanlity(existDetail.getQuanlity() + detail.getQuanlity());
+//				detailOrderService.addDetail(existDetail);
+//			}
+//
+//		}
+//		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+//	}
+//	@RequestMapping(value="confirm", method = RequestMethod.PUT)
+//	public void placeanorder() {
+//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//		Orders cart = orderService.findCartByUsername(authentication.getName()).get(0);
+//		orderService.book(cart.getId());
+//	}
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+	@RequestMapping(value="/change", method = RequestMethod.PUT)
+	public Orders change(@RequestParam("idOrder") int idOrder, @RequestParam("status") int status) {
+		Orders order = orderService.findById(idOrder);
+		order.setStatus(status);
+		return orderService.save(order);
+//		orderService.book(cart.getId());
 	}
 }

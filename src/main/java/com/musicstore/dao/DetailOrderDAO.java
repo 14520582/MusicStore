@@ -13,4 +13,6 @@ import com.musicstore.entity.Orders;
 public interface DetailOrderDAO  extends CrudRepository<DetailOrder, Integer>{
     @Query("select u from DetailOrder u where u.order.id = :idOrder and u.album.id = :idAlbum")
     public DetailOrder findByIdAlbum(@Param("idOrder") int idOrder, @Param("idAlbum") int idAlbum);
+    @Query("delete from DetailOrder u where u.order.id = :id")
+    public void deleteByOrder(@Param("id") int id);
 }

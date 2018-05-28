@@ -17,8 +17,7 @@ public class DetailOrderService implements IDetailOrderService{
 	}
 	@Override
 	public void deleteDetail(int id) {
-		detailorderDAO.delete(id);
-		
+		detailorderDAO.delete(id);	
 	}
 	@Override
 	public void addDetail(DetailOrder a) {	
@@ -28,6 +27,11 @@ public class DetailOrderService implements IDetailOrderService{
 	public DetailOrder findByIdAlbum(int idOrder, int idAlbum) {
 		// TODO Auto-generated method stub
 		return detailorderDAO.findByIdAlbum(idOrder, idAlbum);
+	}
+	@Override
+	public void deleteByOrder(int id) {
+		// TODO Auto-generated method stub
+		detailorderDAO.deleteByOrder(id);
 	}
 
 }

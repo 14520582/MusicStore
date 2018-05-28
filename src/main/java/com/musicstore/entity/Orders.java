@@ -51,12 +51,20 @@ public class Orders implements Serializable {
 	@OneToMany(mappedBy="order", cascade = CascadeType.ALL, targetEntity = DetailOrder.class)
 	private List<DetailOrder> details = new ArrayList<DetailOrder>();
 	@Column(name="status")
-	private int status; // 0: in cart 1: ordered
+	private int status; // 0: new 1: confirm and delivery 2: ended
+	
 	public void addDetails(DetailOrder e){
 		details.add(e);
 	}
 	public Integer getId() {
 		return id;
+	}
+	
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
 	}
 	public List<DetailOrder> getDetails() {
 		return details;
@@ -66,6 +74,22 @@ public class Orders implements Serializable {
 	}
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	
+	public Orders(Integer id, long date, Account customer, List<DetailOrder> details, int status) {
+		super();
+		this.id = id;
+		this.date = date;
+		this.customer = customer;
+		this.details = details;
+		this.status = status;
+	}
+	public Orders(long date, Account customer, List<DetailOrder> details, int status) {
+		super();
+		this.date = date;
+		this.customer = customer;
+		this.details = details;
+		this.status = status;
 	}
 	public Orders(long date, Account customer, List<DetailOrder> details) {
 		super();

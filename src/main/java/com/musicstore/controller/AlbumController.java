@@ -80,11 +80,17 @@ public class AlbumController {
 	}
 	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@RequestMapping(value= "/{id}", method = RequestMethod.GET)
+	public Album changeStatus(@RequestParam("id") int id,@RequestParam("status") int status) {
+		Album album = albumService.getAlbumById(id);
+		album.setStatus(status);
+		return albumService.update(album);
+	}
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+	@RequestMapping(value= "/changestatus", method = RequestMethod.GET)
 	public ResponseEntity<Album> getAlbumById(@PathVariable("id") Integer id) {
 		Album album = albumService.getAlbumById(id);
 		return new ResponseEntity<Album>(album, HttpStatus.OK);
 	}
-	
 	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@RequestMapping(value= "/edit",method = RequestMethod.PUT)
 	public ResponseEntity<Album> editAlbum(@RequestBody Album album) {
