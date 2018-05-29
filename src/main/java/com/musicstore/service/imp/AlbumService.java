@@ -27,13 +27,8 @@ public class AlbumService implements IAlbumService{
 		return albumDAO.findByName(name);
 	}
 	@Override
-	public boolean addAlbum(Album album) {
-	       if (albumDAO.existsByName(album.getName())) {
-	    	   return false;
-	       } else {
-	    	   albumDAO.save(album);
-	    	   return true;
-	       }
+	public Album addAlbum(Album album) {
+		return albumDAO.save(album);
 	}
 	@Override
 	public Album update(Album album) {

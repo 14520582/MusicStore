@@ -67,16 +67,8 @@ public class AlbumController {
 	}
 	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> addAlbum(@RequestBody Album album, UriComponentsBuilder builder) {
-		album.setArtist(artistService.findByName(album.getArtist().getName()));
-		album.setGenre(genreService.findByName(album.getGenre().getName()));
-		boolean flag = albumService.addAlbum(album);
-        if (flag == false) {
-        	return new ResponseEntity<Void>(HttpStatus.CONFLICT);
-        }
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(builder.path("/album/{id}").buildAndExpand(album.getId()).toUri());
-        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+	public Album addAlbum(@RequestBody Album album) {
+        return albumService.addAlbum(album);
 	}
 	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@RequestMapping(value= "/{id}", method = RequestMethod.GET)
@@ -93,19 +85,7 @@ public class AlbumController {
 	}
 	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@RequestMapping(value= "/edit",method = RequestMethod.PUT)
-	public ResponseEntity<Album> editAlbum(@RequestBody Album album) {
-		Album al = albumService.getAlbumById(album.getId());
-		al.setGenre(genreService.findByName(album.getGenre().getName()));
-		al.setArtist(artistService.findByName(album.getArtist().getName()));
-		al.setName(album.getName());
-		al.setPrice(album.getPrice());
-		al.setCover(album.getCover());
-		al.setReleasedate(album.getReleasedate());
-		try {
-		    albumService.update(al);
-			return new ResponseEntity<Album>(al, HttpStatus.OK);     	
-        }catch (Exception e){
-        	return new ResponseEntity<Album>(al, HttpStatus.CONFLICT);
-        }
+	public Album editAlbum(@RequestBody Album album) {
+		return albumService.addAlbum(album);
 	}
 }

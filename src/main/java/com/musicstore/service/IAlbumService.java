@@ -14,7 +14,7 @@ public interface IAlbumService {
  	List<Album> findAll();
  	Page<Album> findByPage(Pageable pageable);
  	Page<Album> findBySearchTerm(String term, Pageable pageable);
- 	boolean addAlbum(Album account);
+ 	Album addAlbum(Album account);
  	Album findByName(String name);
  	Album getAlbumById(int id);
  	Album update(Album acc);
