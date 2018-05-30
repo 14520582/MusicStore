@@ -2,6 +2,8 @@ package com.musicstore.dao;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -23,4 +25,5 @@ public interface OrderDAO extends CrudRepository<Orders, Integer>{
     public void book(@Param("id") int id);
     @Query("select u from Orders u where u.status = :status")
     public List<Orders> findByStatus(@Param("status") int status);
+    public Page<Orders> findAll(Pageable page);
 }

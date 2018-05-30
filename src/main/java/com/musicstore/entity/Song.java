@@ -58,7 +58,12 @@ public class Song implements Serializable {
 		this.singer = singer;
 		this.album = album;
 	}
-
+	public Song(String name, Genre genre, Artist singer) {
+		super();
+		this.name = name;
+		this.genre = genre;
+		this.singer = singer;
+	}
 	public Album getAlbum() {
 		return album;
 	}

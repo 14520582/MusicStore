@@ -2,6 +2,9 @@ package com.musicstore.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.musicstore.entity.Orders;
 
 public interface IOrderService {
@@ -14,4 +17,5 @@ public interface IOrderService {
 	List<Orders> findOrdersByUsername(String username);
 	void book(int id);
 	Orders save(Orders order);
+	Page<Orders> findByPage(Pageable pageable);
 }

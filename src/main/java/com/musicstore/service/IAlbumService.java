@@ -15,6 +15,7 @@ public interface IAlbumService {
  	Page<Album> findByPage(Pageable pageable);
  	Page<Album> findBySearchTerm(String term, Pageable pageable);
  	Album addAlbum(Album account);
+ 	Album reduceQuantity(int id, int q);
  	Album findByName(String name);
  	Album getAlbumById(int id);
  	Album update(Album acc);

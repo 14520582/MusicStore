@@ -1,8 +1,13 @@
 package com.musicstore.controller;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +25,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.musicstore.entity.Account;
+import com.musicstore.entity.Album;
 import com.musicstore.entity.DetailOrder;
 import com.musicstore.entity.Orders;
+import com.musicstore.entity.Song;
 import com.musicstore.service.IAccountService;
 import com.musicstore.service.IAlbumService;
 import com.musicstore.service.IArtistService;
@@ -55,6 +62,12 @@ public class OrderController {
 		List<Orders> list = orderService.findOrdered();
 		return list;
 	}
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @RequestMapping(value = "/page", method = RequestMethod.GET)
+    public Page<Orders> findPage(@RequestParam("page") int page, @RequestParam("pagesize") int pageSize) {
+    	Pageable pageable = new PageRequest(page, pageSize, Sort.Direction.DESC, "id");
+    	return orderService.findByPage(pageable);
+    }
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value= "/{id}", method = RequestMethod.GET)
 	public Orders findById(@PathVariable("id") Integer id) {
@@ -68,9 +81,9 @@ public class OrderController {
 		return order;
 	}
 	@RequestMapping(method = RequestMethod.POST)
-	public Orders addOrder(@RequestBody Orders order, UriComponentsBuilder builder) {
+	public Orders addOrder(@RequestBody Orders order) {
 		
-		DetailOrder a = new DetailOrder(albumService.findByName("SB"), 2);
+		DetailOrder a = new DetailOrder(albumService.findByName("Black Eye"), 2);
 		a.setOrder(order);
 	    order.addDetails(a);
 	    order.setCustomer(accountService.findOne(order.getCustomer().getUsername()));
@@ -129,9 +142,14 @@ public class OrderController {
 //	}
 	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@RequestMapping(value="/change", method = RequestMethod.PUT)
-	public Orders change(@RequestParam("idOrder") int idOrder, @RequestParam("status") int status) {
+	public Orders change(@RequestParam("idOrder") int idOrder) {
 		Orders order = orderService.findById(idOrder);
-		order.setStatus(status);
+		order.setStatus(order.getStatus() + 1);
+		if(order.getStatus() == 1){
+		for (Iterator<DetailOrder> i = order.getDetails().iterator(); i.hasNext();) {
+			DetailOrder item = i.next();
+			albumService.reduceQuantity(item.getAlbum().getId(), item.getQuantity());
+		}}
 		return orderService.save(order);
 //		orderService.book(cart.getId());
 	}

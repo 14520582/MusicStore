@@ -56,5 +56,11 @@ public class AlbumService implements IAlbumService{
 		// TODO Auto-generated method stub
 		return albumDAO.findBySearchTerm(term, pageable);
 	}
+	@Override
+	public Album reduceQuantity(int id, int q) {
+		Album a = albumDAO.findOne(id);
+		a.setQuantity(a.getQuantity() - q);
+		return albumDAO.save(a);
+	}
 
 }

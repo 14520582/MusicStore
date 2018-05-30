@@ -37,8 +37,8 @@ public class DetailOrder implements Serializable  {
 	@JoinColumn(name = "id_order", nullable = false)
 	@JsonIgnoreProperties({"details", "customer"})
 	private Orders order;
-	@Column(name="quanlity")
-	private int quanlity;
+	@Column(name="quantity")
+	private int quantity;
 	public Integer getId() {
 		return id;
 	}
@@ -57,29 +57,29 @@ public class DetailOrder implements Serializable  {
 	public void setOrder(Orders order) {
 		this.order = order;
 	}
-	public int getQuanlity() {
-		return quanlity;
+	public int getQuantity() {
+		return quantity;
 	}
-	public void setQuanlity(int quanlity) {
-		this.quanlity = quanlity;
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
-	public DetailOrder(Integer id, Album album, Orders order, int quanlity) {
+	public DetailOrder(Integer id, Album album, Orders order, int quantity) {
 		super();
 		this.id = id;
 		this.album = album;
 		this.order = order;
-		this.quanlity = quanlity;
+		this.quantity = quantity;
 	}
-	public DetailOrder(Album album, Orders order, int quanlity) {
+	public DetailOrder(Album album, Orders order, int quantity) {
 		super();
 		this.album = album;
 		this.order = order;
-		this.quanlity = quanlity;
+		this.quantity = quantity;
 	}
-	public DetailOrder(Album album, int quanlity) {
+	public DetailOrder(Album album, int quantity) {
 		super();
 		this.album = album;
-		this.quanlity = quanlity;
+		this.quantity = quantity;
 	}
 	public DetailOrder() {
 		super();

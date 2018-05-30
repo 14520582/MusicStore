@@ -18,5 +18,14 @@ public class SongService implements ISongService{
 		// TODO Auto-generated method stub
 		return (List<Song>) songDAO.findAll();
 	}
+	@Override
+	public void deleteById(int id) {
+		songDAO.delete(id);		
+	}
+	@Override
+	public Song addSong(Song s) {
+		// TODO Auto-generated method stub
+		return songDAO.save(s);
+	}
 
 }

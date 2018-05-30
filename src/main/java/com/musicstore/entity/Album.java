@@ -88,7 +88,9 @@ public class Album implements Serializable {
 	public List<Song> getSongs() {
 		return songs;
 	}
-
+	public void clearSongs() {
+		this.songs.clear();
+	}
 	public int getStatus() {
 		return status;
 	}

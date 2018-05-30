@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,6 +56,11 @@ public class OrderService implements IOrderService {
 	@Override
 	public Orders save(Orders order) {
 		return orderDAO.save(order);
+	}
+	@Override
+	public Page<Orders> findByPage(Pageable pageable) {
+		// TODO Auto-generated method stub
+		return orderDAO.findAll(pageable);
 	}
 
 }
