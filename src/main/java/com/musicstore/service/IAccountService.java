@@ -8,5 +8,5 @@ public interface IAccountService {
      	Account getAccountByUsername(String username);
      	boolean addAccount(Account account);
      	Account findOne(String username);
-     	void update(Account acc);
+     	Account updateAccount(Account acc);
 }

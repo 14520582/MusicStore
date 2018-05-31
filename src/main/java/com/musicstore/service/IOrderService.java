@@ -18,4 +18,7 @@ public interface IOrderService {
 	void book(int id);
 	Orders save(Orders order);
 	Page<Orders> findByPage(Pageable pageable);
+	Page<Orders> findByPageByStatus(int status,Pageable pageable);
+	Page<Orders> findBySearchTerm(String term, Pageable pageable);
+	Page<Orders> findBySearchTermByStatus(String term, int status, Pageable pageable);
 }

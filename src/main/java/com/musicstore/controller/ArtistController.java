@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -29,5 +30,10 @@ public class ArtistController {
 	public List<Artist> findAll() {
 		List<Artist> list = artistService.findAll();
 		return list;
+	}
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(method = RequestMethod.POST)
+	public Artist addArtist(@RequestBody Artist artist) {
+		return artistService.save(artist);
 	}
 }

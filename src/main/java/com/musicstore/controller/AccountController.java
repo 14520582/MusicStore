@@ -10,8 +10,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -19,14 +21,17 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.musicstore.entity.Account;
 
 import com.musicstore.service.IAccountService;
+import com.musicstore.service.imp.MyAppUserDetailsService;
+import com.musicstore.util.JWTTokenUtil;
 
 @RestController
 @RequestMapping("/account")
 public class AccountController {
 	@Autowired
 	private IAccountService accountService;
-
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+	@Autowired
+	private JWTTokenUtil jWTTokenUtil;
+    private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
     
 	@RequestMapping(value="/{id}", method = RequestMethod.GET )
 	public ResponseEntity<Account> getAccountById(@PathVariable("id") Integer id) {
@@ -53,7 +58,7 @@ public class AccountController {
 //		List<Account> list = accountService.getAllAccounts();
 //		return new ResponseEntity<List<Account>>(list, HttpStatus.OK);
 //	}
-	@RequestMapping(method = RequestMethod.POST)
+	@RequestMapping(value="/register",method = RequestMethod.POST)
 	public ResponseEntity<Void> addAccount(@RequestBody Account account, UriComponentsBuilder builder) {
 		account.setPassword(bCryptPasswordEncoder.encode(account.getPassword()));
 		boolean flag = accountService.addAccount(account);
@@ -64,11 +69,32 @@ public class AccountController {
         headers.setLocation(builder.path("/account/{id}").buildAndExpand(account.getId()).toUri());
         return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	}
-//	@RequestMapping(value="/account/{id}", method = RequestMethod.PUT )
-//	public ResponseEntity<Account> updateAccount(@RequestBody Account acc) {
-//		accountService.updateAccount(acc);
-//		return new ResponseEntity<Account>(acc, HttpStatus.OK);
-//	}
+	@RequestMapping(value="/update", method = RequestMethod.PUT )
+	public Account updateAccount(@RequestHeader("Token") String token, @RequestBody Account acc) {
+		String username = jWTTokenUtil.getUsernameFromToken(token);
+		if(username.equals(acc.getUsername())){
+			Account user = accountService.getAccountById(acc.getId());
+			user.setAddress(acc.getAddress());
+			user.setName(acc.getName());
+			user.setPhone(acc.getPhone());
+			user.setEmail(acc.getEmail());
+			return accountService.updateAccount(user);
+		}else
+			return null;
+	}
+	@RequestMapping(value="/changepassword", method = RequestMethod.PUT )
+	public Account updatePassword(@RequestHeader("Token") String token,@RequestParam("id") int id, @RequestParam("oldpassword") String oldpassword, @RequestParam("newpassword") String newpassword) {
+		String username = jWTTokenUtil.getUsernameFromToken(token);
+		Account user = accountService.getAccountById(id);
+		System.out.println(username + " " + user.getUsername() + " " + bCryptPasswordEncoder.encode(oldpassword) + " " + user.getPassword());
+		if(username.equals(user.getUsername()) && bCryptPasswordEncoder.matches(oldpassword, user.getPassword())){
+			user.setPassword(bCryptPasswordEncoder.encode(newpassword));
+			System.out.println(username + "fffffffffffffffffffffffffffffffffffffffff");
+			return accountService.updateAccount(user);
+		}else{
+			return null;
+		}
+	}
 //	@RequestMapping(value="/account/{id}", method = RequestMethod.DELETE )
 //	public ResponseEntity<Void> deleteAccount(@PathVariable("id") Integer id) {
 //		accountService.deleteAccount(id);

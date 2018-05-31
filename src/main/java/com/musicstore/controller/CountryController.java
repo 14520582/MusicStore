@@ -4,30 +4,25 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.musicstore.entity.Artist;
-import com.musicstore.entity.Genre;
-import com.musicstore.service.IGenreService;
+import com.musicstore.entity.Country;
+import com.musicstore.service.IArtistService;
+import com.musicstore.service.ICountryService;
+
 @RestController
-@RequestMapping("/genre")
-public class GenreController {
+@RequestMapping("/country")
+public class CountryController {
 	@Autowired
-	private IGenreService genreService;
-	
+	private ICountryService countryService;
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value= "/all", method = RequestMethod.GET)
-	public List<Genre> findAll() {
-		List<Genre> list = genreService.findAll();
+	public List<Country> findAll() {
+		List<Country> list = countryService.findAll();
 		return list;
-	}
-	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(method = RequestMethod.POST)
-	public Genre addGenre(@RequestBody Genre genre) {
-		return genreService.save(genre);
 	}
 }

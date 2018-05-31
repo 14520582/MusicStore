@@ -23,6 +23,8 @@ public class Account implements Serializable {
 	private String role;
 	@Column(name="phone")	
 	private String phone;
+	@Column(name="email")	
+	private String email;
 	@Column(name="user_name")	
 	private String username;
 	@Column(name="pass_word")	
@@ -41,6 +43,34 @@ public class Account implements Serializable {
 		this.password = password;
 		this.token = token;
 	}
+	
+	public Account(Integer id, String name, String address, String role, String phone, String email, String username,
+			String password, String token) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.address = address;
+		this.role = role;
+		this.phone = phone;
+		this.email = email;
+		this.username = username;
+		this.password = password;
+		this.token = token;
+	}
+
+	public Account(String name, String address, String role, String phone, String email, String username,
+			String password, String token) {
+		super();
+		this.name = name;
+		this.address = address;
+		this.role = role;
+		this.phone = phone;
+		this.email = email;
+		this.username = username;
+		this.password = password;
+		this.token = token;
+	}
+
 	public Account(String username, String password) {
 		super();
 		this.username = username;
@@ -54,6 +84,13 @@ public class Account implements Serializable {
 	}
 	public Integer getId() {
 		return id;
+	}
+	
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	public void setId(Integer id) {
 		this.id = id;

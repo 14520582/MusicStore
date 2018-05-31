@@ -22,4 +22,9 @@ public class GenreService implements IGenreService{
 		// TODO Auto-generated method stub
 		return (List<Genre>) genreDAO.findAll();
 	}
+	@Override
+	public Genre save(Genre g) {
+		// TODO Auto-generated method stub
+		return genreDAO.save(g);
+	}
 }

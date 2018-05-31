@@ -37,8 +37,10 @@ public class AccountService implements IAccountService{
 	       if (accountDAO.existsByUsername(account.getUsername())) {
 	    	   return false;
 	       } else {
-	    	   accountDAO.save(account);
-	    	   return true;
+	    	   if(accountDAO.save(account) != null)
+	    		   return true;
+	    	   else
+	    		   return false;
 	       }
 	}
 	@Override
@@ -51,8 +53,8 @@ public class AccountService implements IAccountService{
 		return obj; 
 	}
 	@Override
-	public void update(Account acc) {
-		accountDAO.save(acc);
+	public Account updateAccount(Account acc) {
+		return accountDAO.save(acc);
 	}
 
 }

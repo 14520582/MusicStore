@@ -31,7 +31,7 @@ public class DetailOrder implements Serializable  {
 	private Integer id;
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_album", nullable = false)
-	@JsonIgnoreProperties({"name", "price", "genre", "artist", "releasedate", "cover", "description", "quantity", "songs"})
+	@JsonIgnoreProperties({"genre", "releasedate", "description", "quantity", "songs"})
 	private Album album;
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_order", nullable = false)

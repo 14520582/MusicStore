@@ -63,10 +63,28 @@ public class OrderController {
 		return list;
 	}
 	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public Page<Orders> findBySearchTerm(@RequestParam("page") int page, @RequestParam("pagesize") int pageSize, @RequestParam("term") String term) {
+    	Pageable pageable = new PageRequest(page, pageSize);
+    	return orderService.findBySearchTerm(term, pageable);
+    }
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @RequestMapping(value = "/searchandstatus", method = RequestMethod.GET)
+    public Page<Orders> findBySearchTermAndStatus(@RequestParam("page") int page, @RequestParam("pagesize") int pageSize, @RequestParam("term") String term, @RequestParam("status") int status) {
+    	Pageable pageable = new PageRequest(page, pageSize);
+    	return orderService.findBySearchTermByStatus(term, status, pageable);
+    }
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @RequestMapping(value = "/page", method = RequestMethod.GET)
     public Page<Orders> findPage(@RequestParam("page") int page, @RequestParam("pagesize") int pageSize) {
     	Pageable pageable = new PageRequest(page, pageSize, Sort.Direction.DESC, "id");
     	return orderService.findByPage(pageable);
+    }
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @RequestMapping(value = "/pageandstatus", method = RequestMethod.GET)
+    public Page<Orders> findPageByStatus(@RequestParam("page") int page, @RequestParam("pagesize") int pageSize, @RequestParam("status") int status) {
+    	Pageable pageable = new PageRequest(page, pageSize, Sort.Direction.DESC, "id");
+    	return orderService.findByPageByStatus(status, pageable);
     }
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value= "/{id}", method = RequestMethod.GET)

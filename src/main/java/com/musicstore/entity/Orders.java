@@ -52,7 +52,14 @@ public class Orders implements Serializable {
 	private List<DetailOrder> details = new ArrayList<DetailOrder>();
 	@Column(name="status")
 	private int status; // 0: new 1: confirm and delivery 2: ended
-	
+	@Column(name="address")
+	private String address;
+	@Column(name="name")
+	private String name; 
+	@Column(name="phone")
+	private String phone; 
+	@Column(name="payment")
+	private int payment; 
 	public void addDetails(DetailOrder e){
 		details.add(e);
 	}
@@ -109,6 +116,31 @@ public class Orders implements Serializable {
 	public void setCustomer(Account customer) {
 		this.customer = customer;
 	}
+	
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public int getPayment() {
+		return payment;
+	}
+	public void setPayment(int payment) {
+		this.payment = payment;
+	}
 	public Orders(Integer id, long date, Account customer) {
 		super();
 		this.id = id;
@@ -122,6 +154,32 @@ public class Orders implements Serializable {
 		this.date = date;
 		this.customer = customer;
 		this.details = details;
+	}
+	
+	public Orders(Integer id, long date, Account customer, List<DetailOrder> details, int status, String address,
+			String name, String phone, int payment) {
+		super();
+		this.id = id;
+		this.date = date;
+		this.customer = customer;
+		this.details = details;
+		this.status = status;
+		this.address = address;
+		this.name = name;
+		this.phone = phone;
+		this.payment = payment;
+	}
+	public Orders(long date, Account customer, List<DetailOrder> details, int status, String address, String name,
+			String phone, int payment) {
+		super();
+		this.date = date;
+		this.customer = customer;
+		this.details = details;
+		this.status = status;
+		this.address = address;
+		this.name = name;
+		this.phone = phone;
+		this.payment = payment;
 	}
 	public Orders(long date, Account customer) {
 		super();

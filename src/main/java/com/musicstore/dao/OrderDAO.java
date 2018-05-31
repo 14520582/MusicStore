@@ -10,6 +10,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.musicstore.entity.Album;
 import com.musicstore.entity.Orders;
 
 @Repository
@@ -26,4 +27,17 @@ public interface OrderDAO extends CrudRepository<Orders, Integer>{
     @Query("select u from Orders u where u.status = :status")
     public List<Orders> findByStatus(@Param("status") int status);
     public Page<Orders> findAll(Pageable page);
+    @Query("SELECT t FROM Orders t WHERE t.status = :status")
+    public Page<Orders> findAllByStatus(@Param("status") int status, Pageable page);
+    @Query("SELECT t FROM Orders t WHERE " +
+            "LOWER(t.name) LIKE LOWER(CONCAT('%',:searchTerm, '%')) OR " +
+            "LOWER(t.phone) LIKE LOWER(CONCAT('%',:searchTerm, '%')) OR " +
+            "LOWER(CONCAT(t.id,'')) LIKE LOWER(CONCAT('%',:searchTerm, '%'))")
+    public Page<Orders> findBySearchTerm(@Param("searchTerm") String searchTerm, Pageable pageable);
+    @Query("SELECT t FROM Orders t WHERE " +
+            "LOWER(t.name) LIKE LOWER(CONCAT('%',:searchTerm, '%')) OR " +
+            "LOWER(t.phone) LIKE LOWER(CONCAT('%',:searchTerm, '%')) OR " +
+            "LOWER(CONCAT(t.id,'')) LIKE LOWER(CONCAT('%',:searchTerm, '%')) AND " +
+            "t.status = :status")
+    public Page<Orders> findBySearchTermAndStatus(@Param("searchTerm") String searchTerm, @Param("status") int status, Pageable pageable);
 }

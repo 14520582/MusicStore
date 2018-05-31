@@ -62,5 +62,19 @@ public class OrderService implements IOrderService {
 		// TODO Auto-generated method stub
 		return orderDAO.findAll(pageable);
 	}
-
+	@Override
+	public Page<Orders> findBySearchTerm(String term, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return orderDAO.findBySearchTerm(term, pageable);
+	}
+	@Override
+	public Page<Orders> findByPageByStatus(int status, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return orderDAO.findAllByStatus(status, pageable);
+	}
+	@Override
+	public Page<Orders> findBySearchTermByStatus(String term, int status, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return orderDAO.findBySearchTermAndStatus(term, status, pageable);
+	}
 }

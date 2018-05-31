@@ -8,4 +8,5 @@ public interface IArtistService {
 	Artist findByName(String name);
 	boolean existsByName(String name);
 	List<Artist> findAll();
+	Artist save(Artist a);
 }

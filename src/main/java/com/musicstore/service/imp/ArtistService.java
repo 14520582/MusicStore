@@ -27,4 +27,10 @@ public class ArtistService implements IArtistService{
 		// TODO Auto-generated method stub
 		return (List<Artist>) artistDAO.findAll();
 	}
+
+	@Override
+	public Artist save(Artist a) {
+		// TODO Auto-generated method stub
+		return artistDAO.save(a);
+	}
 }
