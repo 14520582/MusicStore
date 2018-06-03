@@ -60,6 +60,7 @@ public class AccountController {
 //	}
 	@RequestMapping(value="/register",method = RequestMethod.POST)
 	public ResponseEntity<Void> addAccount(@RequestBody Account account, UriComponentsBuilder builder) {
+		account.setRole("ROLE_USER");
 		account.setPassword(bCryptPasswordEncoder.encode(account.getPassword()));
 		boolean flag = accountService.addAccount(account);
         if (flag == false) {

@@ -58,6 +58,8 @@ public class Orders implements Serializable {
 	private String name; 
 	@Column(name="phone")
 	private String phone; 
+	@Column(name="email")
+	private String email; 
 	@Column(name="payment")
 	private int payment; 
 	public void addDetails(DetailOrder e){
@@ -79,10 +81,19 @@ public class Orders implements Serializable {
 	public void setDetails(List<DetailOrder> details) {
 		this.details = details;
 	}
+	
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	
+	public void clearDetails() {
+		this.details.clear();
+	}
 	public Orders(Integer id, long date, Account customer, List<DetailOrder> details, int status) {
 		super();
 		this.id = id;
@@ -97,6 +108,34 @@ public class Orders implements Serializable {
 		this.customer = customer;
 		this.details = details;
 		this.status = status;
+	}
+	
+	public Orders(Integer id, long date, Account customer, List<DetailOrder> details, int status, String address,
+			String name, String phone, String email, int payment) {
+		super();
+		this.id = id;
+		this.date = date;
+		this.customer = customer;
+		this.details = details;
+		this.status = status;
+		this.address = address;
+		this.name = name;
+		this.phone = phone;
+		this.email = email;
+		this.payment = payment;
+	}
+	public Orders(long date, Account customer, List<DetailOrder> details, int status, String address, String name,
+			String phone, String email, int payment) {
+		super();
+		this.date = date;
+		this.customer = customer;
+		this.details = details;
+		this.status = status;
+		this.address = address;
+		this.name = name;
+		this.phone = phone;
+		this.email = email;
+		this.payment = payment;
 	}
 	public Orders(long date, Account customer, List<DetailOrder> details) {
 		super();

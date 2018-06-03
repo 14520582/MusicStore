@@ -19,6 +19,8 @@ public interface OrderDAO extends CrudRepository<Orders, Integer>{
     public List<Orders> findOrdered();
     @Query("select u from Orders u where u.customer.username = :username and u.status = 0")
     public List<Orders> findCartByUsername(@Param("username") String username);
+    @Query("select u from Orders u where u.customer.id = :id")
+    public List<Orders> findByUser(@Param("id") int id);
     @Query("select u from Orders u where u.customer.username = :username and u.status = 1")
     public List<Orders> findOrderByUsername(@Param("username") String username);
     @Modifying

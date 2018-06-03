@@ -53,6 +53,11 @@ public class AlbumController {
 		List<Album> list = albumService.findAll();
 		return list;
 	}
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value= "/client/{id}", method = RequestMethod.GET)
+	public Album findById(@PathVariable("id") int id) {
+		return albumService.getAlbumById(id);
+	}
     @RequestMapping(value = "/page", method = RequestMethod.GET)
     public Page<Album> findPage(@RequestParam("page") int page, @RequestParam("pagesize") int pageSize) {
     	Pageable pageable = new PageRequest(page, pageSize, Sort.Direction.DESC, "id");
@@ -62,6 +67,26 @@ public class AlbumController {
     public Page<Album> findBySearchTerm(@RequestParam("page") int page, @RequestParam("pagesize") int pageSize, @RequestParam("term") String term) {
     	Pageable pageable = new PageRequest(page, pageSize);
     	return albumService.findBySearchTerm(term, pageable);
+    }
+    @RequestMapping(value = "/client/searchcountry", method = RequestMethod.GET)
+    public Page<Album> findByCountry(@RequestParam("page") int page, @RequestParam("pagesize") int pageSize, @RequestParam("country") String country) {
+    	Pageable pageable = new PageRequest(page, pageSize, Sort.Direction.DESC, "id");
+    	return albumService.findByCountry(country, pageable);
+    }
+    @RequestMapping(value = "/client/searchartist", method = RequestMethod.GET)
+    public Page<Album> findByArtist(@RequestParam("page") int page, @RequestParam("pagesize") int pageSize, @RequestParam("id") int id) {
+    	Pageable pageable = new PageRequest(page, pageSize, Sort.Direction.DESC, "id");
+    	return albumService.findByArtist(id, pageable);
+    }
+    @RequestMapping(value = "/client/searchgenre", method = RequestMethod.GET)
+    public Page<Album> findByGenre(@RequestParam("page") int page, @RequestParam("pagesize") int pageSize, @RequestParam("id") int id) {
+    	Pageable pageable = new PageRequest(page, pageSize, Sort.Direction.DESC, "id");
+    	return albumService.findByGenre(id, pageable);
+    }
+    @RequestMapping(value = "/client/search", method = RequestMethod.GET)
+    public Page<Album> clientFindBySearchTerm(@RequestParam("page") int page, @RequestParam("pagesize") int pageSize, @RequestParam("term") String term) {
+    	Pageable pageable = new PageRequest(page, pageSize, Sort.Direction.DESC, "id");
+    	return albumService.clientFindBySearchTerm(term, pageable);
     }
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(method = RequestMethod.GET)

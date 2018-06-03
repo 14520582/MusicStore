@@ -77,4 +77,9 @@ public class OrderService implements IOrderService {
 		// TODO Auto-generated method stub
 		return orderDAO.findBySearchTermAndStatus(term, status, pageable);
 	}
+	@Override
+	public List<Orders> findByUser(int id) {
+		// TODO Auto-generated method stub
+		return orderDAO.findByUser(id);
+	}
 }

@@ -12,6 +12,7 @@ public interface IOrderService {
 	Orders findById(int id);
 	void addOrder(Orders order);
 	List<Orders> findByStatus(int status);
+	List<Orders> findByUser(int id);
 	List<Orders> findOrdered();
 	List<Orders> findCartByUsername(String username);
 	List<Orders> findOrdersByUsername(String username);

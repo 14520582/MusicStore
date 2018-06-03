@@ -1,5 +1,6 @@
 package com.musicstore.controller;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -55,6 +56,12 @@ public class OrderController {
 		List<Orders> list = orderService.findAll();
 		return list;
 	}
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value= "/client/{id}", method = RequestMethod.GET)
+	public List<Orders> findByUser(@PathVariable("id") Integer id) {
+		List<Orders> list = orderService.findByUser(id);
+		return list;
+	}
 	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value= "/ordered", method = RequestMethod.GET)
@@ -98,15 +105,27 @@ public class OrderController {
 		List<Orders> order = orderService.findByStatus(status);
 		return order;
 	}
-	@RequestMapping(method = RequestMethod.POST)
+//	@RequestMapping(method = RequestMethod.POST)
+//	public Orders addOrder(@RequestBody Orders order) {
+//		
+//		DetailOrder a = new DetailOrder(albumService.findByName("Black Eye"), 2);
+//		a.setOrder(order);
+//	    order.addDetails(a);
+//	    order.setCustomer(accountService.findOne(order.getCustomer().getUsername()));
+//		orderService.addOrder(order);
+//		return order;
+//	}
+	@RequestMapping(value= "/client/add", method = RequestMethod.POST)
 	public Orders addOrder(@RequestBody Orders order) {
-		
-		DetailOrder a = new DetailOrder(albumService.findByName("Black Eye"), 2);
-		a.setOrder(order);
-	    order.addDetails(a);
-	    order.setCustomer(accountService.findOne(order.getCustomer().getUsername()));
-		orderService.addOrder(order);
-		return order;
+		List<DetailOrder> details = new ArrayList<DetailOrder>(order.getDetails());
+		order.clearDetails();
+		for (Iterator<DetailOrder> i = details.iterator(); i.hasNext();) {
+			DetailOrder item = i.next();
+			DetailOrder t = new DetailOrder(item.getAlbum(), order, item.getQuantity());
+//		    System.out.println(item.getName());
+			order.addDetails(t);
+		}
+        return orderService.save(order);
 	}
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value= "/cart", method = RequestMethod.GET)

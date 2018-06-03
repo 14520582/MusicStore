@@ -57,10 +57,30 @@ public class AlbumService implements IAlbumService{
 		return albumDAO.findBySearchTerm(term, pageable);
 	}
 	@Override
+	public Page<Album> clientFindBySearchTerm(String term, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return albumDAO.clientFindBySearchTerm(term, pageable);
+	}
+	@Override
 	public Album reduceQuantity(int id, int q) {
 		Album a = albumDAO.findOne(id);
 		a.setQuantity(a.getQuantity() - q);
 		return albumDAO.save(a);
+	}
+	@Override
+	public Page<Album> findByCountry(String country, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return albumDAO.findByCountry(country, pageable);
+	}
+	@Override
+	public Page<Album> findByArtist(int id, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return albumDAO.findByArtist(id, pageable);
+	}
+	@Override
+	public Page<Album> findByGenre(int id, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return albumDAO.findByGenre(id, pageable);
 	}
 
 }
