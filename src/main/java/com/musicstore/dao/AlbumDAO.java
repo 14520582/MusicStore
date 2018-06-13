@@ -30,16 +30,16 @@ public interface AlbumDAO  extends CrudRepository<Album, Integer>{
     @Query("SELECT t FROM Album t WHERE " +
             "LOWER(t.name) LIKE LOWER(CONCAT('%',:searchTerm, '%')) OR " +
             "LOWER(t.artist.name) LIKE LOWER(CONCAT('%',:searchTerm, '%')) OR " +
-            "LOWER(t.genre.name) LIKE LOWER(CONCAT('%',:searchTerm, '%')) AND " + "t.status = 1 AND t.quantity > 0")
+            "LOWER(t.genre.name) LIKE LOWER(CONCAT('%',:searchTerm, '%'))")
     public Page<Album> clientFindBySearchTerm(@Param("searchTerm") String searchTerm, Pageable pageable);
     
-    @Query("SELECT t FROM Album t WHERE LOWER(t.artist.country.name) LIKE LOWER(CONCAT('%',:country, '%')) AND t.status = 1 AND t.quantity > 0")
+    @Query("SELECT t FROM Album t WHERE LOWER(t.artist.country.name) LIKE LOWER(CONCAT('%',:country, '%'))")
     public Page<Album> findByCountry(@Param("country") String country, Pageable pageable);
     
-    @Query("SELECT t FROM Album t WHERE t.artist.id = :id AND t.status = 1 AND t.quantity > 0")
+    @Query("SELECT t FROM Album t WHERE t.artist.id = :id")
     public Page<Album> findByArtist(@Param("id") int id, Pageable pageable);
     
-    @Query("SELECT t FROM Album t WHERE t.genre.id = :id AND t.status = 1 AND t.quantity > 0")
+    @Query("SELECT t FROM Album t WHERE t.genre.id = :id")
     public Page<Album> findByGenre(@Param("id") int id, Pageable pageable);
     
     public Page<Album> findAll(Pageable pageable);
